@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\UserManagement;
+namespace App\Http\Controllers;
 
+use App\Enums\Titles;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -21,7 +23,13 @@ class UserController extends Controller
 
     public function store(CreateUserRequest $request): UserResource
     {
-        $user = User::create($request->validated());
+        $password = $request->password;
+
+        $hashedPass = Hash::make($password);
+
+        $data = array_merge($request->validated(), ['password' => $hashedPass]);
+
+        $user = User::create($data);
 
         return new UserResource($user);
     }

@@ -29,11 +29,12 @@ return new class () extends Migration {
             $table->string('telephone_number')->unique()->nullable();
             $table->string('mobile_number')->unique();
             $table->string('email')->unique();
-            $table->string('alternative_contact_person')->unique();
+            $table->string('alternative_contact_person')->nullable();
             $table->string('living_with_disability')->nullable();
             $table->string('nature_of_disability')->nullable();
             $table->string('disability_reg_no')->nullable();
             $table->string('disability_reg_date')->nullable();
+            $table->softDeletes();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

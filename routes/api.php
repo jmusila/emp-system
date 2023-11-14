@@ -1,6 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\CountyController;
+use App\Http\Controllers\EthnicityController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +17,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('api')->group(function () {
+    Route::post('user/create', [UserController::class, 'store']);
+});
+
+Route::middleware('auth:api')->group(function () {
+    Route::apiResource('users', UserController::class)->except('store');
+    Route::apiResource('cities', CityController::class);
+    Route::apiResource('county', CountyController::class);
+    Route::apiResource('ethnicity', EthnicityController::class);
 });

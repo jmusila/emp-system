@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Titles;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateUserRequest extends FormRequest
 {
@@ -25,9 +27,9 @@ class CreateUserRequest extends FormRequest
             'firstname' => ['required', 'string'],
             'othername' => ['filled', 'string'],
             'surname' => ['required', 'string'],
-            'title' => ['required', 'string'],
+            'title' => ['required', 'string', Rule::in(array_column(Titles::cases(), 'value'))],
             'dob' => ['required', 'date'],
-            'gender' => ['required', 'string'],
+            'gender' => ['required', 'string', Rule::in(['male', 'female'])],
             'nationality' => ['required', 'string'],
             'ethnicity' => ['integer', 'exists:ethnicities,id'],
             'county' =>  ['integer', 'exists:counties,id'],
@@ -37,10 +39,11 @@ class CreateUserRequest extends FormRequest
             'mobile_number' => ['required', 'string', 'unique:users'],
             'email' => ['required', 'email', 'unique:users'],
             'alternative_contact_person' => ['filled', 'string'],
-            'living_with_disability' => ['required', 'string', 'unique:users'],
-            'nature_of_disability' => ['nullable', 'required_with:living_with_disability'],
-            'disability_reg_no' => ['nullable', 'required_with:living_with_disability'],
-            'disability_reg_date' => ['nullable', 'required_with:living_with_disability'],
+            'living_with_disability' => ['required', 'string', Rule::in(['yes', 'no'])],
+            'nature_of_disability' => ['nullable', 'required_if:living_with_disability,yes'],
+            'disability_reg_no' => ['nullable', 'required_if:living_with_disability,yes'],
+            'disability_reg_date' => ['nullable', 'required_if:living_with_disability,yes'],
+            'password' => ['required', 'string'],
         ];
     }
 }
