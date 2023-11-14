@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\County;
+use App\Models\Ethnicity;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,8 +22,8 @@ return new class () extends Migration {
             $table->string('id_number')->nullable();
             $table->string('gender')->nullable();
             $table->string('nationality')->nullable();
-            $table->foreignIdFor('ethnicities')->nullable();
-            $table->foreignIdFor('counties')->nullable();
+            $table->foreignIdFor(Ethnicity::class, 'ethnicity_id')->nullable();
+            $table->foreignIdFor(County::class, 'county_id')->nullable();
             $table->string('address')->nullable();
             $table->string('code')->nullable();
             $table->string('telephone_number')->unique()->nullable();

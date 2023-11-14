@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum AdmissionStatus: string
+enum Titles: string
 {
     case PROF = "Prof";
     case DR = "Dr";
