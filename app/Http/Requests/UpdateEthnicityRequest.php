@@ -23,7 +23,6 @@ class UpdateEthnicityRequest extends FormRequest
     {
         return [
             'name' => ['filled', 'string'],
-            'county_id' => ['integer', 'required', 'exists:counties,id'],
         ];
     }
 }
